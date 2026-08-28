@@ -22,6 +22,7 @@ export function parseLaunchUrl(url: string | null | undefined): LaunchContext {
     qrToken,
     tenantCode,
     referralCode,
+    tenantName: '',
     sourceUrl: url,
   };
 }
@@ -34,6 +35,7 @@ export function mergeLaunchContext(
     qrToken: normalize(incoming.qrToken) || current.qrToken,
     tenantCode: normalize(incoming.tenantCode) || current.tenantCode,
     referralCode: normalize(incoming.referralCode) || current.referralCode,
+    tenantName: normalize(incoming.tenantName) || current.tenantName,
     sourceUrl: normalize(incoming.sourceUrl) || current.sourceUrl,
   };
 }
@@ -54,4 +56,8 @@ export async function readStoredLaunchContext(): Promise<LaunchContext> {
 
 export async function writeStoredLaunchContext(context: LaunchContext) {
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(context));
+}
+
+export async function clearStoredLaunchContext() {
+  await AsyncStorage.removeItem(STORAGE_KEY);
 }

@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as Linking from 'expo-linking';
 import { emptyLaunchContext, LaunchContext } from '../types';
 import {
+  clearStoredLaunchContext,
   mergeLaunchContext,
   parseLaunchUrl,
   readStoredLaunchContext,
@@ -49,6 +50,18 @@ export function useLaunchContext() {
     };
   }, []);
 
+  const patchLaunchContext = useCallback(async (patch: Partial<LaunchContext>) => {
+    const next = mergeLaunchContext(launchContext, patch);
+    setLaunchContext(next);
+    await writeStoredLaunchContext(next);
+    return next;
+  }, [launchContext]);
+
+  const clearLaunchContext = useCallback(async () => {
+    setLaunchContext(emptyLaunchContext);
+    await clearStoredLaunchContext();
+  }, []);
+
   const hasLaunchSelection = useMemo(() => {
     return Boolean(launchContext.qrToken || launchContext.referralCode);
   }, [launchContext]);
@@ -57,5 +70,7 @@ export function useLaunchContext() {
     launchContext,
     hasLaunchSelection,
     loading,
+    patchLaunchContext,
+    clearLaunchContext,
   };
 }

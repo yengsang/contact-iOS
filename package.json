@@ -4,24 +4,39 @@
   "main": "index.ts",
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/datetimepicker": "9.1.0",
     "@tanstack/react-query": "^5.101.4",
     "axios": "^1.19.0",
     "expo": "~57.0.9",
+    "expo-application": "~57.0.2",
     "expo-constants": "~57.0.8",
+    "expo-contacts": "~57.0.3",
+    "expo-dev-client": "~57.0.10",
+    "expo-device": "~57.0.1",
+    "expo-image-picker": "~57.0.7",
     "expo-linking": "~57.0.4",
     "expo-status-bar": "~57.0.1",
+    "expo-updates": "~57.0.11",
     "react": "19.2.3",
     "react-native": "0.86.2"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "cross-env": "^10.1.0",
     "typescript": "~6.0.3"
   },
   "scripts": {
     "start": "expo start",
+    "start:staging": "cross-env APP_VARIANT=staging expo start --tunnel --clear",
+    "start:production": "cross-env APP_VARIANT=production expo start --tunnel --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "eas:configure:ios": "npx eas-cli@latest build:configure --platform ios",
+    "eas:build:ios:dev": "npx eas-cli@latest build --platform ios --profile development",
+    "eas:build:ios:preview": "npx eas-cli@latest build --platform ios --profile preview",
+    "eas:build:ios:production-preview": "npx eas-cli@latest build --platform ios --profile production-preview",
+    "eas:build:ios:production": "npx eas-cli@latest build --platform ios --profile production"
   },
   "private": true
 }
